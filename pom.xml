@@ -11,7 +11,7 @@
     <name>Advent of Code 2025</name>
 
     <modules>
-        <module>Advent of Code 2025 - Day 1</module>
+        <module>day1</module>
     </modules>
 
     <build>
@@ -23,7 +23,17 @@
                     <source>25</source>
                     <target>25</target>
                 </configuration>
+                <version>3.13.0</version>
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>6.1.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
