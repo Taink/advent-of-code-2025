@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class Puzzle {
+public class Day1 {
     static void main() {
         Dial d = new Dial();
 
