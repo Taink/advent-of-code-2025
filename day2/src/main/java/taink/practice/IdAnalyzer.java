@@ -6,10 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class IdAnalyzer {
-    private final Pattern repeatedNumber;
+    private final Pattern numberRepeatedTwice;
 
     public IdAnalyzer() {
-        this.repeatedNumber = Pattern.compile("(\\d+)\\1");
+        this.numberRepeatedTwice = Pattern.compile("(\\d+)\\1");
     }
 
     /**
@@ -42,18 +42,18 @@ public class IdAnalyzer {
         return List.copyOf(result);
     }
 
-    public boolean isInvalidId(String id) {
-        Matcher m = repeatedNumber.matcher(id);
+    public boolean isSimpleInvalidId(String id) {
+        Matcher m = numberRepeatedTwice.matcher(id);
         return m.matches();
     }
 
-    public List<String> invalidIdsInRange(int start, int end) {
+    public List<String> simpleInvalidIdsInRange(int start, int end) {
         List<String> numbers = numbersFromRange(start, end);
-        return numbers.stream().filter(this::isInvalidId).toList();
+        return numbers.stream().filter(this::isSimpleInvalidId).toList();
     }
 
-    public List<String> invalidIdsInRange(long start, long end) {
+    public List<String> simpleInvalidIdsInRange(long start, long end) {
         List<String> numbers = numbersFromRange(start, end);
-        return numbers.stream().filter(this::isInvalidId).toList();
+        return numbers.stream().filter(this::isSimpleInvalidId).toList();
     }
 }

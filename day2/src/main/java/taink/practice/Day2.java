@@ -18,7 +18,7 @@ public class Day2 {
             throw new RuntimeException(e);
         }
         IdAnalyzer idAnalyzer = new IdAnalyzer();
-        List<String> invalidIds = new ArrayList<>();
+        List<String> simpleInvalidIds = new ArrayList<>();
 
         while (ranges.hasMoreTokens()) {
             String rangeString = ranges.nextToken();
@@ -26,10 +26,10 @@ public class Day2 {
             long start = Long.parseUnsignedLong(extremes[0]);
             long end = Long.parseUnsignedLong(extremes[1]);
 
-            invalidIds.addAll(idAnalyzer.invalidIdsInRange(start, end));
+            simpleInvalidIds.addAll(idAnalyzer.simpleInvalidIdsInRange(start, end));
         }
 
-        long sumOfInvalidIds = invalidIds.stream().mapToLong(Long::parseLong).sum();
-        IO.println("Sum of invalid ids: " + sumOfInvalidIds);
+        long sumOfSimpleInvalidIds = simpleInvalidIds.stream().mapToLong(Long::parseLong).sum();
+        IO.println("Sum of simple invalid ids: " + sumOfSimpleInvalidIds);
     }
 }

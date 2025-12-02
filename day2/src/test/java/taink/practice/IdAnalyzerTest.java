@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -31,18 +30,18 @@ class IdAnalyzerTest {
     }
 
     @Test
-    void isInvalidId() {
+    void isSimpleInvalidId() {
         IdAnalyzer idAnalyzer = new IdAnalyzer();
-        assertTrue(idAnalyzer.isInvalidId("55"));
-        assertTrue(idAnalyzer.isInvalidId("6464"));
-        assertTrue(idAnalyzer.isInvalidId("123123"));
-        assertFalse(idAnalyzer.isInvalidId("101"));
-        assertFalse(idAnalyzer.isInvalidId("65465489489"));
-        assertFalse(idAnalyzer.isInvalidId("189891896"));
-        assertFalse(idAnalyzer.isInvalidId("235234"));
-        assertFalse(idAnalyzer.isInvalidId("5123123"));
-        assertFalse(idAnalyzer.isInvalidId("5123123"));
-        assertFalse(idAnalyzer.isInvalidId("1122334455"));
+        assertTrue(idAnalyzer.isSimpleInvalidId("55"));
+        assertTrue(idAnalyzer.isSimpleInvalidId("6464"));
+        assertTrue(idAnalyzer.isSimpleInvalidId("123123"));
+        assertFalse(idAnalyzer.isSimpleInvalidId("101"));
+        assertFalse(idAnalyzer.isSimpleInvalidId("65465489489"));
+        assertFalse(idAnalyzer.isSimpleInvalidId("189891896"));
+        assertFalse(idAnalyzer.isSimpleInvalidId("235234"));
+        assertFalse(idAnalyzer.isSimpleInvalidId("5123123"));
+        assertFalse(idAnalyzer.isSimpleInvalidId("5123123"));
+        assertFalse(idAnalyzer.isSimpleInvalidId("1122334455"));
     }
 
     @Test
@@ -50,8 +49,8 @@ class IdAnalyzerTest {
         Path path = Paths.get("src/test/resources/small_input.txt");
         StringTokenizer ranges = new StringTokenizer(Files.readString(path), " ,\t\r\n\f");
         IdAnalyzer idAnalyzer = new IdAnalyzer();
-        List<String> expectedInvalidIds = List.of("11", "22", "99", "1010", "1188511885", "222222", "446446", "38593859");
-        List<String> invalidIds = new ArrayList<>();
+        List<String> expectedSimpleInvalidIds = List.of("11", "22", "99", "1010", "1188511885", "222222", "446446", "38593859");
+        List<String> simpleInvalidIds = new ArrayList<>();
 
         while (ranges.hasMoreTokens()) {
             String rangeString = ranges.nextToken();
@@ -59,11 +58,11 @@ class IdAnalyzerTest {
             int start = Integer.parseInt(extremes[0]);
             int end = Integer.parseInt(extremes[1]);
 
-            invalidIds.addAll(idAnalyzer.invalidIdsInRange(start, end));
+            simpleInvalidIds.addAll(idAnalyzer.simpleInvalidIdsInRange(start, end));
         }
-        assertLinesMatch(expectedInvalidIds, invalidIds);
+        assertLinesMatch(expectedSimpleInvalidIds, simpleInvalidIds);
 
-        int sumOfInvalidIds = invalidIds.stream().mapToInt(Integer::parseInt).sum();
-        assertEquals(1227775554, sumOfInvalidIds);
+        int sumOfSimpleInvalidIds = simpleInvalidIds.stream().mapToInt(Integer::parseInt).sum();
+        assertEquals(1227775554, sumOfSimpleInvalidIds);
     }
 }
