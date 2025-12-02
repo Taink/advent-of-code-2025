@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Puzzle {
     static void main() {
-
         Dial d = new Dial();
 
         Path path = Paths.get("src/main/resources/input.txt");
@@ -25,5 +24,6 @@ public class Puzzle {
         }
 
         IO.println("Password: " + d.getPassword());
+        IO.println("Password method 0x434C49434B: " + d.getCompletePassword());
     }
 }

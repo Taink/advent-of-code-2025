@@ -106,5 +106,6 @@ class DialTest {
         }
 
         assertEquals(3, d.getPassword());
+        assertEquals(6, d.getCompletePassword());
     }
 }
