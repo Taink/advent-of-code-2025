@@ -7,9 +7,11 @@ import java.util.regex.Pattern;
 
 public class IdAnalyzer {
     private final Pattern numberRepeatedTwice;
+    private final Pattern numberRepeatedTwiceOrMore;
 
     public IdAnalyzer() {
         this.numberRepeatedTwice = Pattern.compile("(\\d+)\\1");
+        this.numberRepeatedTwiceOrMore = Pattern.compile("(\\d+)\\1+");
     }
 
     /**
@@ -55,5 +57,20 @@ public class IdAnalyzer {
     public List<String> simpleInvalidIdsInRange(long start, long end) {
         List<String> numbers = numbersFromRange(start, end);
         return numbers.stream().filter(this::isSimpleInvalidId).toList();
+    }
+
+    public boolean isCompleteInvalidId(String id) {
+        Matcher m = numberRepeatedTwiceOrMore.matcher(id);
+        return m.matches();
+    }
+
+    public List<String> completeInvalidIdsInRange(int start, int end) {
+        List<String> numbers = numbersFromRange(start, end);
+        return numbers.stream().filter(this::isCompleteInvalidId).toList();
+    }
+
+    public List<String> completeInvalidIdsInRange(long start, long end) {
+        List<String> numbers = numbersFromRange(start, end);
+        return numbers.stream().filter(this::isCompleteInvalidId).toList();
     }
 }

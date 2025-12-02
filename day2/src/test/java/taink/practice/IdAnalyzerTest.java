@@ -45,12 +45,34 @@ class IdAnalyzerTest {
     }
 
     @Test
+    void isCompleteInvalidId() {
+        IdAnalyzer idAnalyzer = new IdAnalyzer();
+        assertTrue(idAnalyzer.isCompleteInvalidId("55"));
+        assertTrue(idAnalyzer.isCompleteInvalidId("6464"));
+        assertTrue(idAnalyzer.isCompleteInvalidId("123123"));
+        assertFalse(idAnalyzer.isCompleteInvalidId("101"));
+        assertFalse(idAnalyzer.isCompleteInvalidId("65465489489"));
+        assertFalse(idAnalyzer.isCompleteInvalidId("189891896"));
+        assertFalse(idAnalyzer.isCompleteInvalidId("235234"));
+        assertFalse(idAnalyzer.isCompleteInvalidId("5123123"));
+        assertFalse(idAnalyzer.isCompleteInvalidId("5123123"));
+        assertFalse(idAnalyzer.isCompleteInvalidId("1122334455"));
+
+        assertTrue(idAnalyzer.isCompleteInvalidId("12341234"));
+        assertTrue(idAnalyzer.isCompleteInvalidId("123123123"));
+        assertTrue(idAnalyzer.isCompleteInvalidId("1212121212"));
+        assertTrue(idAnalyzer.isCompleteInvalidId("1111111"));
+    }
+
+    @Test
     void parseSmallInput() throws IOException {
         Path path = Paths.get("src/test/resources/small_input.txt");
         StringTokenizer ranges = new StringTokenizer(Files.readString(path), " ,\t\r\n\f");
         IdAnalyzer idAnalyzer = new IdAnalyzer();
         List<String> expectedSimpleInvalidIds = List.of("11", "22", "99", "1010", "1188511885", "222222", "446446", "38593859");
+        List<String> expectedCompleteInvalidIds = List.of("11", "22", "99", "111", "999", "1010", "1188511885", "222222", "446446", "38593859", "565656", "824824824", "2121212121");
         List<String> simpleInvalidIds = new ArrayList<>();
+        List<String> completeInvalidIds = new ArrayList<>();
 
         while (ranges.hasMoreTokens()) {
             String rangeString = ranges.nextToken();
@@ -59,10 +81,14 @@ class IdAnalyzerTest {
             int end = Integer.parseInt(extremes[1]);
 
             simpleInvalidIds.addAll(idAnalyzer.simpleInvalidIdsInRange(start, end));
+            completeInvalidIds.addAll(idAnalyzer.completeInvalidIdsInRange(start, end));
         }
         assertLinesMatch(expectedSimpleInvalidIds, simpleInvalidIds);
+        assertLinesMatch(expectedCompleteInvalidIds, completeInvalidIds);
 
         int sumOfSimpleInvalidIds = simpleInvalidIds.stream().mapToInt(Integer::parseInt).sum();
         assertEquals(1227775554, sumOfSimpleInvalidIds);
+        long sumOfCompleteInvalidIds = completeInvalidIds.stream().mapToLong(Long::parseLong).sum();
+        assertEquals(4174379265L, sumOfCompleteInvalidIds);
     }
 }
