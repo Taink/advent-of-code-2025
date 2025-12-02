@@ -12,6 +12,7 @@
 
     <modules>
         <module>day1</module>
+        <module>day2</module>
     </modules>
 
     <build>
