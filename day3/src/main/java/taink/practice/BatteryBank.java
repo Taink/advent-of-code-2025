@@ -2,12 +2,12 @@ package taink.practice;
 
 public class BatteryBank {
     private final String batteries;
-    private int firstBatteryPos;
-    private int secondBatteryPos;
+    private final int targetBatteryCount;
     private int maxJoltage;
 
-    public BatteryBank(String batteries) {
+    public BatteryBank(String batteries, int targetBatteryCount) {
         this.batteries = batteries;
+        this.targetBatteryCount = targetBatteryCount;
         this.computeLargestJoltage();
     }
 
@@ -30,28 +30,18 @@ public class BatteryBank {
     }
 
     private void computeLargestJoltage() {
-        String firstBatteryCandidates = this.batteries.substring(0, this.batteries.length() - 1); // exclude last battery
-        int firstBatteryPos = getLargestRatingPosInBank(firstBatteryCandidates);
-        String secondBatteryCandidates = this.batteries.substring(firstBatteryPos + 1); // after first battery
-        int secondBatteryPos = getLargestRatingPosInBank(secondBatteryCandidates) + firstBatteryPos + 1;
+        int previousBatteryPos = -1;
+        for (int remainingBatteries = this.targetBatteryCount; remainingBatteries > 0; remainingBatteries--) {
+            int minPos = previousBatteryPos + 1;
+            String batteryCandidates = this.batteries.substring(minPos, this.batteries.length() - remainingBatteries + 1);
+            int batteryPos = getLargestRatingPosInBank(batteryCandidates) + minPos;
 
-        this.firstBatteryPos = firstBatteryPos;
-        this.secondBatteryPos = secondBatteryPos;
-
-        this.maxJoltage = getBatteryRatingAtPos(this.batteries, firstBatteryPos) * 10
-             + getBatteryRatingAtPos(this.batteries, secondBatteryPos);
+            this.maxJoltage += getBatteryRatingAtPos(this.batteries, batteryPos) * Math.powExact(10, remainingBatteries - 1);
+            previousBatteryPos = batteryPos;
+        }
     }
 
     public int getMaxJoltage() {
         return maxJoltage;
     }
-
-    public int getSecondBatteryPos() {
-        return secondBatteryPos;
-    }
-
-    public int getFirstBatteryPos() {
-        return firstBatteryPos;
-    }
-
 }
