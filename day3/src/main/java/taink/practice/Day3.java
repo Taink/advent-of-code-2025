@@ -18,5 +18,9 @@ public class Day3 {
         List<BatteryBank> batteryBanks2 = batteries.stream().map(s -> new BatteryBank(s, 2)).toList();
         long maxJoltage2 = batteryBanks2.stream().mapToLong(BatteryBank::getMaxJoltage).sum();
         IO.println("Maximum Joltage with 2 batteries: " + maxJoltage2);
+
+        List<BatteryBank> batteryBanks12 = batteries.stream().map(s -> new BatteryBank(s, 12)).toList();
+        long maxJoltage12 = batteryBanks12.stream().mapToLong(BatteryBank::getMaxJoltage).sum();
+        IO.println("Maximum Joltage with 12 batteries: " + maxJoltage12);
     }
 }
