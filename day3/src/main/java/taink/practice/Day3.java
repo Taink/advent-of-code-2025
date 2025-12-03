@@ -16,7 +16,7 @@ public class Day3 {
             throw new RuntimeException(e);
         }
         List<BatteryBank> batteryBanks2 = batteries.stream().map(s -> new BatteryBank(s, 2)).toList();
-        int maxJoltage2 = batteryBanks2.stream().mapToInt(BatteryBank::getMaxJoltage).sum();
+        long maxJoltage2 = batteryBanks2.stream().mapToLong(BatteryBank::getMaxJoltage).sum();
         IO.println("Maximum Joltage with 2 batteries: " + maxJoltage2);
     }
 }

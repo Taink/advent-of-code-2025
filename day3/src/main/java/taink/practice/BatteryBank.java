@@ -3,7 +3,7 @@ package taink.practice;
 public class BatteryBank {
     private final String batteries;
     private final int targetBatteryCount;
-    private int maxJoltage;
+    private long maxJoltage;
 
     public BatteryBank(String batteries, int targetBatteryCount) {
         this.batteries = batteries;
@@ -36,12 +36,12 @@ public class BatteryBank {
             String batteryCandidates = this.batteries.substring(minPos, this.batteries.length() - remainingBatteries + 1);
             int batteryPos = getLargestRatingPosInBank(batteryCandidates) + minPos;
 
-            this.maxJoltage += getBatteryRatingAtPos(this.batteries, batteryPos) * Math.powExact(10, remainingBatteries - 1);
+            this.maxJoltage += getBatteryRatingAtPos(this.batteries, batteryPos) * Math.powExact(10L, remainingBatteries - 1);
             previousBatteryPos = batteryPos;
         }
     }
 
-    public int getMaxJoltage() {
+    public long getMaxJoltage() {
         return maxJoltage;
     }
 }
