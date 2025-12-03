@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="advent-of-code-2025-day1" />
         <module name="day2" />
+        <module name="day3" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
