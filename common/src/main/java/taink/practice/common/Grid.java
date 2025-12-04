@@ -96,10 +96,16 @@ public class Grid<T> {
     @Override
     public String toString() {
         List<T> elList = this.toList();
-        List<String> serializedElements = elList.stream().map(el -> String.format("\t%s", el != null ? el.toString() : "")).toList();
+        List<String> serializedElements = elList.stream().map(el -> {
+            String prefix = "\t";
+            if (el instanceof Character) {
+                prefix = "";
+            }
+            return String.format("%s%s", prefix, el != null ? el.toString() : "");
+        }).toList();
         StringBuilder sb = new StringBuilder();
-        for (int y = 0; y < this.maxY; y++) {
-            for (int x = 0; x < this.maxX; x++) {
+        for (int y = 0; y <= this.maxY; y++) {
+            for (int x = 0; x <= this.maxX; x++) {
                 sb.append(serializedElements.get(y * this.maxX + x));
             }
             sb.append("\n");
