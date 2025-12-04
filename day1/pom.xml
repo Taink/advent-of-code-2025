@@ -9,5 +9,5 @@
         <version>2025</version>
     </parent>
 
-    <artifactId>advent-of-code-2025-day1</artifactId>
+    <artifactId>day1</artifactId>
 </project>
