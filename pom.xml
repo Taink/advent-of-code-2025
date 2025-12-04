@@ -15,6 +15,7 @@
         <module>day2</module>
         <module>day3</module>
         <module>day4</module>
+        <module>common</module>
     </modules>
 
     <build>
