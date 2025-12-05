@@ -42,6 +42,10 @@ class IngredientInventoryTest {
             throw new RuntimeException(e);
         }
         IngredientInventory inventory =  new IngredientInventory(input);
+        List<Long> expectedFreshIds = List.of(3L, 4L, 5L, 10L, 11L, 12L, 13L, 14L, 15L, 16L, 17L, 18L, 19L, 20L);
+        for (long id : expectedFreshIds) {
+            assertTrue(inventory.idIsFresh(id));
+        }
         assertFalse(inventory.idIsFresh(1));
         assertTrue(inventory.idIsFresh(5));
         assertFalse(inventory.idIsFresh(8));
@@ -50,5 +54,6 @@ class IngredientInventoryTest {
         assertFalse(inventory.idIsFresh(32));
 
         assertEquals(3, inventory.getFreshIngredientCount());
+        assertEquals(14, inventory.getFreshIdCandidateCount());
     }
 }

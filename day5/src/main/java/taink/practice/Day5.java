@@ -17,5 +17,6 @@ public class Day5 {
         }
         IngredientInventory inventory =  new IngredientInventory(input);
         IO.println("Count of fresh ingredients: " + inventory.getFreshIngredientCount());
+        IO.println("Count of fresh IDs: " + inventory.getFreshIdCandidateCount());
     }
 }
