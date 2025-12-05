@@ -90,7 +90,7 @@ public class Grid<T> {
                 result.add(getElementAtCoords(x, y));
             }
         }
-        return List.copyOf(result);
+        return Collections.unmodifiableList(result);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Grid<T> {
         StringBuilder sb = new StringBuilder();
         for (int y = 0; y <= this.maxY; y++) {
             for (int x = 0; x <= this.maxX; x++) {
-                sb.append(serializedElements.get(y * this.maxX + x));
+                sb.append(serializedElements.get(y * (this.maxX + 1) + x));
             }
             sb.append("\n");
         }
