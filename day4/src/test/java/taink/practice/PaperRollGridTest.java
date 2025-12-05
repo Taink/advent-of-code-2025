@@ -41,5 +41,16 @@ class PaperRollGridTest {
                         """;
         assertEquals(expected, papers.toString());
         assertEquals(13, papers.countAccessibleRolls());
+
+        int accessibleRolls = papers.countAccessibleRolls();
+        int totalRollsRemoved = accessibleRolls;
+
+        do {
+            papers.emptyAccessibleRolls();
+            papers.markAccessibleRollsWithX();
+            accessibleRolls = papers.countAccessibleRolls();
+            totalRollsRemoved += accessibleRolls;
+        } while (accessibleRolls > 0);
+        assertEquals(43, totalRollsRemoved);
     }
 }

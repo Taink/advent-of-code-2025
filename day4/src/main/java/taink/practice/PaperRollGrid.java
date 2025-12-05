@@ -53,6 +53,22 @@ public class PaperRollGrid {
         }
     }
 
+    public void emptyAccessibleRolls() {
+        for (int y = 0; y <= this.grid.getMaxY(); y++) {
+            for (int x = 0; x <= this.grid.getMaxX(); x++) {
+                try {
+                    if (this.grid.getElementAtCoords(x, y) != ACCESSIBLE_PAPER_ROLL) {
+                        continue;
+                    }
+
+                    this.grid.setElementAtCoords(x, y, EMPTY_CELL);
+                } catch(IndexOutOfBoundsException e) {
+                    System.exit(1);
+                }
+            }
+        }
+    }
+
     public int countAccessibleRolls() {
         return this.grid.toList().stream().filter(c -> c == ACCESSIBLE_PAPER_ROLL).toList().size();
     }

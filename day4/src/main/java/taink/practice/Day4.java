@@ -16,9 +16,17 @@ public class Day4 {
         }
         PaperRollGrid papers = new PaperRollGrid();
         papers.fillFromString(input);
-        papers.markAccessibleRollsWithX();
-        IO.println("Paper grid, marked with Xs:");
-        IO.print(papers.toString());
-        IO.println("Accessible paper rolls: " + papers.countAccessibleRolls());
+        int accessibleRolls = 0;
+        int totalAccessibleRolls = accessibleRolls;
+        do {
+            papers.markAccessibleRollsWithX();
+            IO.println("Paper grid, marked with Xs:");
+            IO.print(papers.toString());
+            accessibleRolls = papers.countAccessibleRolls();
+            IO.println("Accessible paper rolls: " + accessibleRolls);
+            totalAccessibleRolls += accessibleRolls;
+            papers.emptyAccessibleRolls();
+        } while (accessibleRolls > 0);
+        IO.println("Total accessible rolls: " + totalAccessibleRolls);
     }
 }
