@@ -15,5 +15,15 @@ public class Day7 {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        TachyonManifold tachyonManifold = new TachyonManifold(input);
+        do {
+            tachyonManifold.propagateBeam();
+            IO.println("Current state of the manifold:");
+            IO.println(tachyonManifold);
+            IO.println();
+        } while(!tachyonManifold.isFullyPropagated());
+
+        IO.println("Split count: "+tachyonManifold.getSplitCount());
     }
 }
