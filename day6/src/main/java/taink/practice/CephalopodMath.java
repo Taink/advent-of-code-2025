@@ -30,32 +30,31 @@ public class CephalopodMath {
         }
 
         List<Integer> cephalopodNumbers = new ArrayList<>();
-        int operationIndex = operations.size() - 1;
 
         // Cephalopod numbers are read right-to-left in columns
-        for (int colX = inputNumbers.getMaxX(); colX > 0; colX--) {
+        for (int colX = inputNumbers.getMaxX(); colX >= 0; colX--) {
             List<Character> col = inputNumbers.getColumn(colX);
             if (col.stream().allMatch(c -> Objects.isNull(c) || Character.isSpaceChar(c))) {
                 // this is a spacing column; we should switch operation
-                worksheet.set(operationIndex, cephalopodNumbers);
+
+                worksheet.addFirst(cephalopodNumbers);
                 cephalopodNumbers = new ArrayList<>();
-                operationIndex--;
                 continue;
             }
 
-            int cephalopodNumber = 0;
-            int nthDigit = 0;
+            StringBuilder cephalopodNumber = new StringBuilder();
             // Each number is in its own column, with the most significant digit at the top
             for (int colY = 0; colY <= inputNumbers.getMaxY(); colY++) {
-                char digit = inputNumbers.getElementAtCoords(colX, colY);
+                Character c = inputNumbers.getElementAtCoords(colX, colY);
+                char digit = Objects.isNull(c) ? ' ' : c;
 
                 if (Character.isDigit(digit)) {
-                    cephalopodNumber += digit * 10 * nthDigit;
-                    nthDigit++;
+                    cephalopodNumber.append(digit);
                 }
             }
-            cephalopodNumbers.add(cephalopodNumber);
+            cephalopodNumbers.addFirst(Integer.parseInt(cephalopodNumber.toString()));
         }
+        worksheet.addFirst(cephalopodNumbers);
     }
 
     private void parseOperators(String[] input) {
