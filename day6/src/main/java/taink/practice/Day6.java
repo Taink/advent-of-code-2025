@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Day6 {
     static void main() {
-//        Path path = Paths.get("src/main/resources/input.txt");
-        Path path = Paths.get("src/test/resources/small_input.txt");
+        Path path = Paths.get("src/main/resources/input.txt");
         List<String> input;
         try {
             input = Files.readAllLines(path);
@@ -19,7 +17,6 @@ public class Day6 {
         }
 
         CephalopodMath math = new CephalopodMath(input);
-
-        IO.println(math);
+        IO.println("Sum of results: " + math.getSumOfResults());
     }
 }

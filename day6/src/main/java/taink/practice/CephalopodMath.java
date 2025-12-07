@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 public class CephalopodMath {
     private final List<Character> operations;
@@ -66,6 +67,23 @@ public class CephalopodMath {
                 throw new IllegalArgumentException("Invalid operation: " + operation);
             }
         }
+    }
+
+    public long getResultOfColumn(int colIndex) {
+        LongStream col = this.worksheet.get(colIndex).stream().mapToLong(Integer::longValue);
+        return switch (this.operations.get(colIndex)) {
+            case OPERATOR_ADD -> col.sum();
+            case OPERATOR_MULTIPLY -> col.reduce(1L, (a, b) -> a * b);
+            default -> throw new IllegalArgumentException("Invalid operation: " + this.operations.get(colIndex));
+        };
+    }
+
+    public long getSumOfResults() {
+        long sum = 0;
+        for (int i = 0; i < this.worksheet.size(); i++) {
+            sum += this.getResultOfColumn(i);
+        }
+        return sum;
     }
 
     @Override
