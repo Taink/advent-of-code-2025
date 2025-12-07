@@ -93,6 +93,46 @@ public class Grid<T> {
         return Collections.unmodifiableList(result);
     }
 
+    /**
+     * Fetch elements in the specified column
+     * @param x the X coordinate of the column
+     * @return an unmodifiable list of the elements in the column
+     * @throws IndexOutOfBoundsException if the specified column is below 0 or above maxX
+     */
+    public List<T> getColumn(int x) throws IndexOutOfBoundsException {
+        List<T> result = new ArrayList<>();
+
+        if (x < 0 || x > this.maxX) {
+            throw new IndexOutOfBoundsException("Column "+x+" is out of bounds");
+        }
+
+        for (int y = 0; y <= maxY; y++) {
+            result.add(getElementAtCoords(x, y));
+        }
+
+        return Collections.unmodifiableList(result);
+    }
+
+    /**
+     * Fetch elements in the specified row
+     * @param y the Y coordinate of the row
+     * @return an unmodifiable list of the elements in the row
+     * @throws IndexOutOfBoundsException if the specified row is below 0 or above maxY
+     */
+    public List<T> getRow(int y) throws IndexOutOfBoundsException {
+        List<T> result = new ArrayList<>();
+
+        if (y < 0 || y > this.maxY) {
+            throw new IndexOutOfBoundsException("Row "+y+" is out of bounds");
+        }
+
+        for (int x = 0; x <= maxX; x++) {
+            result.add(getElementAtCoords(x, y));
+        }
+
+        return Collections.unmodifiableList(result);
+    }
+
     @Override
     public String toString() {
         List<T> elList = this.toList();

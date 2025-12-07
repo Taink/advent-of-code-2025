@@ -97,6 +97,90 @@ class GridTest {
     }
 
     @Test
+    void getColumnThrowsIffOutOfBoundsColumn() {
+        Grid<Integer> grid = new Grid<>();
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getColumn(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getColumn(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getColumn(1));
+
+        grid.setElementAtCoords(0,0, 1);
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getColumn(-1));
+        assertDoesNotThrow(() -> grid.getColumn(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getColumn(1));
+
+        grid.setElementAtCoords(42,0, 1);
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getColumn(-1));
+        assertDoesNotThrow(() -> grid.getColumn(0));
+        assertDoesNotThrow(() -> grid.getColumn(1));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getColumn(69));
+    }
+
+    @Test
+    void getRowThrowsIffOutOfBoundsRow() {
+        Grid<Integer> grid = new Grid<>();
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getRow(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getRow(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getRow(1));
+
+        grid.setElementAtCoords(0,0, 1);
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getRow(-1));
+        assertDoesNotThrow(() -> grid.getRow(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getRow(1));
+
+        grid.setElementAtCoords(0,42, 1);
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getRow(-1));
+        assertDoesNotThrow(() -> grid.getRow(0));
+        assertDoesNotThrow(() -> grid.getRow(1));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getRow(69));
+    }
+
+    @Test
+    void getColumnReturnsNullForEmptyRow() {
+        Grid<Integer> grid = new Grid<>();
+        for (int i = 0; i < 10; i++) {
+            if (i == 5) continue;
+            grid.setElementAtCoords(0, i, i);
+        }
+        assertDoesNotThrow(() -> grid.getColumn(0));
+        assertNull(grid.getColumn(0).get(5));
+        assertNotNull(grid.getColumn(0).get(0));
+        assertNotNull(grid.getColumn(0).get(3));
+        assertNotNull(grid.getColumn(0).get(7));
+        assertNotNull(grid.getColumn(0).get(8));
+    }
+
+    @Test
+    void getRowReturnsNullForEmptyColumn() {
+        Grid<Integer> grid = new Grid<>();
+        for (int i = 0; i < 10; i++) {
+            if (i == 5) continue;
+            grid.setElementAtCoords(i, 0, i);
+        }
+        assertDoesNotThrow(() -> grid.getRow(0));
+        assertNull(grid.getRow(0).get(5));
+        assertNotNull(grid.getRow(0).get(0));
+        assertNotNull(grid.getRow(0).get(3));
+        assertNotNull(grid.getRow(0).get(7));
+        assertNotNull(grid.getRow(0).get(8));
+    }
+
+    @Test
+    void getColumnReturnsListUpToMaxX() {
+        Grid<Integer> grid = ascendingSquareGrid(99);
+        assertDoesNotThrow(() -> grid.getColumn(42));
+        assertDoesNotThrow(() -> grid.getColumn(69));
+        assertEquals(99, grid.getColumn(42).size());
+    }
+
+    @Test
+    void getRowReturnsListUpToMaxY() {
+        Grid<Integer> grid = ascendingSquareGrid(99);
+        assertDoesNotThrow(() -> grid.getRow(42));
+        assertDoesNotThrow(() -> grid.getRow(69));
+        assertEquals(99, grid.getRow(42).size());
+    }
+
+    @Test
     void toListReturnsEmptyListFromEmptyGrid() {
         Grid<Integer> grid = new Grid<>();
         List<Integer> result = grid.toList();
