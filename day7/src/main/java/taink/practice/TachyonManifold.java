@@ -2,7 +2,10 @@ package taink.practice;
 
 import taink.practice.common.Grid;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class TachyonManifold {
     public static final char EMPTY_SPACE = '.';
@@ -63,6 +66,36 @@ public class TachyonManifold {
                     break;
             }
         }
+    }
+
+    public long computeDistinctBeams() {
+        // beamCol, distinctBeams
+        Map<Integer, Long> beamCountByCol = new HashMap<>();
+        int startX = 0;
+        while (this.state.getElementAtCoords(startX, 0) != START) {
+            startX++;
+        }
+        beamCountByCol.put(startX, 1L);
+        for (int y = 1; y < this.state.getMaxY(); y++) {
+            Set<Integer> colsThatHaveBeams = beamCountByCol.keySet();
+            for (int colToInvestigate : colsThatHaveBeams.stream().toList()) {
+                if (this.state.getElementAtCoords(colToInvestigate, y) == SPLITTER) {
+                    int leftX = colToInvestigate - 1;
+                    if (leftX >= 0 && this.state.getElementAtCoords(leftX, y) == BEAM) {
+                        long leftBeamCount = beamCountByCol.get(leftX) != null ? beamCountByCol.get(leftX) : 0L;
+                        beamCountByCol.put(leftX, leftBeamCount + beamCountByCol.get(colToInvestigate));
+                    }
+                    int rightX = colToInvestigate + 1;
+                    if (rightX <= this.state.getMaxX() && this.state.getElementAtCoords(rightX, y) == BEAM) {
+                        long rightBeamCount = beamCountByCol.get(rightX) != null ? beamCountByCol.get(rightX) : 0L;
+                        beamCountByCol.put(rightX, rightBeamCount + beamCountByCol.get(colToInvestigate));
+                    }
+                    beamCountByCol.remove(colToInvestigate); // the beam stops when we encounter a splitter
+                }
+            }
+        }
+
+        return beamCountByCol.values().stream().reduce(0L, Long::sum);
     }
 
     public int getSplitCount() {

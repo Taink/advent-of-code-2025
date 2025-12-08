@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.*;
 
 public class Day7 {
     static void main() {
@@ -19,11 +19,14 @@ public class Day7 {
         TachyonManifold tachyonManifold = new TachyonManifold(input);
         do {
             tachyonManifold.propagateBeam();
-            IO.println("Current state of the manifold:");
-            IO.println(tachyonManifold);
-            IO.println();
         } while(!tachyonManifold.isFullyPropagated());
 
-        IO.println("Split count: "+tachyonManifold.getSplitCount());
+        IO.println(tachyonManifold);
+        IO.println();
+        IO.println("Split count (basic manifold): "+tachyonManifold.getSplitCount());
+        IO.println();
+
+        IO.println("Timelines (quantum manifold): "+tachyonManifold.computeDistinctBeams());
     }
+
 }
