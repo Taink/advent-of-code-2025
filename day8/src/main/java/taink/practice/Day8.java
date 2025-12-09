@@ -10,9 +10,7 @@ import java.util.*;
 
 public class Day8 {
     static void main() {
-        int limit = 1000;
         Path path = Paths.get("src/main/resources/input.txt");
-//        int limit = 10;
 //        Path path = Paths.get("src/test/resources/small_input.txt");
         List<String> input;
         try {
@@ -46,7 +44,7 @@ public class Day8 {
         IO.println("Computed "+distanceMatrix.size()+" euclidian distances for "+triples.size()+" triples");
 
         List<Set<Triple<Integer, Integer, Integer>>> circuits = new ArrayList<>();
-        var analyzedDistanceMatrix = distanceMatrix.entrySet().stream().sorted(Comparator.comparingInt(Map.Entry::getValue)).limit(limit).toList();
+        var analyzedDistanceMatrix = distanceMatrix.entrySet().stream().sorted(Comparator.comparingInt(Map.Entry::getValue)).toList();
         for (var distanceByPair : analyzedDistanceMatrix) {
             var pair = distanceByPair.getKey().iterator();
             var first = pair.next();
@@ -67,9 +65,13 @@ public class Day8 {
                 var newSet = new HashSet<>(distanceByPair.getKey());
                 circuits.add(newSet);
             }
+            if (circuits.size() == 1 && circuits.getFirst().containsAll(triples)) {
+                IO.println("All junction boxes connected!");
+                IO.println("Last connection: "+distanceByPair.getKey());
+                IO.println("Multiplying the x coords of the last two junction boxes produces: "+first.x() * second.x());
+                break;
+            }
         }
-        IO.println(circuits.size() + " circuits with more than 1 junction box found among the lowest "+limit+" distances. Listing:");
-        circuits.forEach(IO::println);
 
         var circuitsBySizeDesc = circuits.stream().map(Set::size).sorted(Collections.reverseOrder());
         var sizeProductOfThreeLargestCircuits = circuitsBySizeDesc.limit(3).reduce(1, (acc, b) -> acc * b);
